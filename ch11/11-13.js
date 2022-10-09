@@ -1,14 +1,16 @@
+/**
+ * BAD:
+ * - 예상할 수 있는 상황에서 Error를 던짐
+ * */
 const values = [];
 function getValueForPeriod(periodNumber) {
-  const value = values[periodNumber];
-  if (!value) {
-    throw new Error('value is undefined');
+  if (periodNumber < 0 || periodNumber >= values.length) {
+    return 0;
   }
-  return value;
+  return values[periodNumber];
+
+  // 또는 아래처럼도 가능
+  // return values[periodNumber] ?? 0;
 }
 
-try {
-  getValueForPeriod(-10);
-} catch (error) {
-  console.log('에러 발생!');
-}
+getValueForPeriod(-10);
