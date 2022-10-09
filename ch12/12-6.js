@@ -10,11 +10,16 @@
  * - 외부에서 type을 받지 않고, 서브클래스를 만든다.
  *  - 필요한 타입별로 클래스를 만든다.
  *  - 오브젝트 책에서 기본요금제, 심야요금제 클래스를 각각 만든 게 떠올랐다.
+ * - 만약 서버 응답의 문자열을 가지고 인스턴스를 만들어야 하는 경우라면?
+ *  - 팩토리 메서드를 제공한다.
+ *
+ * QUESTION:
+ * - 최종 코드의 팩토리 메서드 createEmployee를 사용하려면 결국 type을 알아야 하는데, 처음 코드랑 같은 문제가 발생하는 것 아닌가?
  * */
 
 class Employee {
   #name;
-  constructor(name) {
+  constructor(name) { // 팩토리 메서드를 사용할 때는 private으로 바꿔주기
     this.#name = name;
   }
 
@@ -24,6 +29,19 @@ class Employee {
 
   toString() {
     return `${this.#name} (${this.type})`;
+  }
+
+  static createEmployee(name, type) {
+    switch (type) {
+      case 'engineer':
+        return new Engineer(name);
+      case 'salesperson':
+        return new SalesPerson(name);
+      case 'manager':
+        return new Manager(name);
+      default:
+        throw new Error(`${type}라는 직원 유형은 없습니다.`);
+    }
   }
 }
 
